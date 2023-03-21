@@ -1,0 +1,124 @@
+DROP DATABASE food_manager;
+CREATE DATABASE food_manager CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE food_manager;
+SET GLOBAL event_scheduler = ON;
+
+CREATE TABLE user(
+	id BIGINT(20),
+    username VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    weight DOUBLE,
+    height DOUBLE,
+    date_of_birth DATE,
+    activity_lvl ENUM('sedentary', 'lightly_active', 'moderately_active', 'very_active'),
+    baned TINYINT DEFAULT 0,
+    PRIMARY KEY(id),
+    UNIQUE INDEX username_unique(username));
+
+CREATE TABLE food(
+	id BIGINT(20),
+	name VARCHAR(255) NOT NULL,
+    measurement VARCHAR(255) NOT NULL,
+	calories_multiplier DOUBLE NOT NULL,
+    proteins_multiplier DOUBLE NOT NULL,
+    fats_multiplier DOUBLE NOT NULL,
+    carbohydrates_multiplier DOUBLE NOT NULL,
+    fibers_multiplier DOUBLE NOT NULL,
+    PRIMARY KEY(id));
+    
+
+CREATE TABLE meal(
+	id BIGINT(20),
+    amount DOUBLE NOT NULL,
+	user_id BIGINT(20) NOT NULL,
+    food_id BIGINT(20) NOT NULL,
+	calories DOUBLE NOT NULL,
+    proteins DOUBLE NOT NULL,
+    fats DOUBLE NOT NULL,
+    carbohydrates DOUBLE NOT NULL,
+    fibers DOUBLE NOT NULL,
+    date_created DATE NOT NULL,
+	topicality TINYINT DEFAULT 0,
+    PRIMARY KEY(id));
+
+    
+CREATE TABLE role(
+	id BIGINT(20),
+	name VARCHAR(255) NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE INDEX name_unique(name));
+    
+CREATE TABLE user_role(
+	user_id BIGINT(20),
+    role_id BIGINT(20),
+    PRIMARY KEY(user_id, role_id));
+    
+ALTER TABLE meal 
+    ADD INDEX fk_user_idx(user_id) INVISIBLE,
+    ADD CONSTRAINT fk_user_idx FOREIGN KEY(user_id) REFERENCES user(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+    ADD INDEX fk_food_idx(food_id) INVISIBLE,
+    ADD CONSTRAINT fk_food_idx FOREIGN KEY(food_id) REFERENCES food(id) ON DELETE NO ACTION ON UPDATE NO ACTION;
+    
+    
+ALTER TABLE user_role
+	ADD INDEX fk_user_idx(user_id) INVISIBLE,
+	ADD CONSTRAINT k_user_idx FOREIGN KEY(user_id) REFERENCES user(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+    ADD INDEX fk_role_idx(role_id) INVISIBLE,
+    ADD CONSTRAINT fk_role_idx FOREIGN KEY(role_id) REFERENCES role(id) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+CREATE EVENT drop_topicality
+ON SCHEDULE
+  EVERY 1 DAY
+  STARTS '2023-03-21 00:00:00'
+DO
+  UPDATE meal SET topicality = 1;
+  
+CREATE TRIGGER set_created_at
+BEFORE INSERT ON meal
+FOR EACH ROW
+SET NEW.date_created = CURDATE();
+
+DELIMITER //
+CREATE TRIGGER meal_calculate_insert BEFORE INSERT ON meal
+FOR EACH ROW
+BEGIN
+  DECLARE food_calories DOUBLE;
+  DECLARE food_proteins DOUBLE;
+  DECLARE food_fats DOUBLE;
+  DECLARE food_carbohydrates DOUBLE;
+  DECLARE food_fibers DOUBLE;
+
+  SELECT calories_multiplier, proteins_multiplier, fats_multiplier, carbohydrates_multiplier, fibers_multiplier INTO food_calories, food_proteins, food_fats, food_carbohydrates, food_fibers
+  FROM food
+  WHERE id = NEW.food_id;
+
+  SET NEW.calories = food_calories * NEW.amount;
+  SET NEW.proteins = food_proteins * NEW.amount;
+  SET NEW.fats = food_fats * NEW.amount;
+  SET NEW.carbohydrates = food_carbohydrates * NEW.amount;
+  SET NEW.fibers = food_fibers * NEW.amount;
+END//
+
+CREATE TRIGGER meal_calculate_update BEFORE UPDATE ON meal
+FOR EACH ROW
+BEGIN
+  DECLARE food_calories DOUBLE;
+  DECLARE food_proteins DOUBLE;
+  DECLARE food_fats DOUBLE;
+  DECLARE food_carbohydrates DOUBLE;
+  DECLARE food_fibers DOUBLE;
+
+  SELECT calories_multiplier, proteins_multiplier, fats_multiplier, carbohydrates_multiplier, fibers_multiplier INTO food_calories, food_proteins, food_fats, food_carbohydrates, food_fibers
+  FROM food
+  WHERE id = NEW.food_id;
+
+ IF NOT (OLD.amount <=> NEW.amount) THEN
+      SET NEW.calories = NEW.amount * calories_multiplier;
+      SET NEW.proteins = NEW.amount * proteins_multiplier;
+      SET NEW.fats = NEW.amount * fats_multiplier;
+      SET NEW.carbohydrates = NEW.amount * carbohydrates_multiplier;
+      SET NEW.fibers = NEW.amount * fibers_multiplier;
+    END IF;
+END//
+DELIMITER ;
