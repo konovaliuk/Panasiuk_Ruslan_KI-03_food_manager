@@ -48,8 +48,8 @@ class Controller extends ScalatraServlet  with ScalateSupport{
         val filePath = "/views/meals.mustache"
         val mealsWithFood = command.execute()
         mealsWithFood match{
-          case Some(v) => mustache(filePath, "userProfile" -> v)
-          case _=> mustache(filePath, "userProfile" -> Seq.empty[MealWithFood])
+          case meal :: Nil => mustache(filePath, "mealsWithFood" -> meal)
+          case _=> mustache(filePath, "mealsWithFood" -> Seq.empty[MealWithFood])
 
         }
     }
