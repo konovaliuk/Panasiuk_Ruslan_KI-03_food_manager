@@ -1,0 +1,102 @@
+/* Reset default styles for HTML elements */
+body, h1, ul, li, form {
+  margin: 0;
+  padding: 0;
+}
+
+/* Set default font size and family */
+body {
+  font-size: 16px;
+  font-family: Arial, sans-serif;
+}
+
+/* Add some spacing and alignment for the page */
+body {
+  padding: 20px;
+}
+
+/* Home link styles */
+a[href="/home"] {
+  font-size: 20px;
+  color: #fff;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #e0204f;
+  transition: background-color 0.2s ease-in-out;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+}
+
+a[href="/home"]:hover {
+  background-color: #fff;
+  color: #e0204f;
+}
+
+h1 {
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+li {
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+  font-size: 18px;
+}
+
+form {
+  margin-top: 20px;
+}
+
+/* Style the food item list */
+input[type="radio"] {
+  margin-right: 5px;
+}
+
+label {
+  margin-left: 10px;
+}
+
+input[type="number"] {
+  margin-left: 10px;
+  width: 100px;
+}
+
+#delete-button {
+  background-color: #e0204f;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+#delete-button:hover {
+  background-color: #c0173e;
+}
+
+#delete-button:focus {
+  outline: none;
+}
+
+#submit-button {
+  margin-top: 20px;
+  background-color: #e0204f;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+#submit-button:hover {
+  background-color: #ff3366;
+}

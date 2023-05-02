@@ -7,7 +7,7 @@ class Food(private val id: Long,
            private var proteinsM: Double,
            private var fatsM: Double,
            private var carbohydratesM: Double,
-           private var fibersM: Double,
+           private var fiberM: Double,
            ){
 
   def getId: Long = id
@@ -17,34 +17,5 @@ class Food(private val id: Long,
   def getProteinsM: Double = proteinsM
   def getFatsM: Double = fatsM
   def getCarbohydratesM: Double = carbohydratesM
-  def getFibersM: Double = fibersM
-
-  def setName(newName: String): Unit = {
-    name = newName
-  }
-
-  def setMeasurement(newMeasurement: String): Unit = {
-    measurement = newMeasurement
-  }
-
-  def setCaloriesM(newCaloriesM: Double): Unit = {
-    caloriesM = newCaloriesM
-  }
-
-  def setProteinsM(newProteinsM: Double): Unit = {
-    proteinsM = newProteinsM
-  }
-
-  def setFatsM(newFatsM: Double): Unit = {
-    fatsM = newFatsM
-  }
-
-  def setCarbohydratesM(newCarbohydratesM: Double): Unit = {
-    carbohydratesM = newCarbohydratesM
-  }
-
-  def setFibersM(newFibersM: Double): Unit = {
-    fibersM = newFibersM
-  }
-
+  def getFiberM: Double = fiberM
 }

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home page</title>
+    <link rel="stylesheet" type="text/css" href="/home/resources/home.css">
+</head>
+<body>
+<div id="options">
+    <form id="search-form">
+        <input id="search" type="text" placeholder="Search food...">
+        <button type="submit" onclick="search(event)"></button>
+    </form>
+    <a href="/meals" method="get">Edit meals</a>
+    <a href="/profile" method="get">Edit profile</a>
+    <a href="/login" method="get">Log out</a>
+</div>
+<div id="main-info">
+    <table>
+        <tr>
+            <td>Remaining Calories</td>
+            <td>{{calories_remaining}} kcal</td>
+        </tr>
+        <tr>
+            <td>Calories Consumed</td>
+            <td>{{calories_consumed}} kcal</td>
+        </tr>
+        <tr>
+            <td>Fats</td>
+            <td>{{fats}} g</td>
+        </tr>
+        <tr>
+            <td>Carbohydrates</td>
+            <td>{{total_carbs}} g</td>
+        </tr>
+        <tr>
+            <td>Fiber</td>
+            <td>{{fiber}} g</td>
+        </tr>
+        <tr>
+            <td>Protein</td>
+            <td>{{protein}} g</td>
+        </tr>
+    </table>
+</div>
+
+<script>
+document.getElementById('search-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const food = document.getElementById('search').value;
+    const xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            window.location.replace("/search");
+        } else if (this.readyState == 4 && this.status == 401) {
+            const errorMessage = document.getElementById('error-message');
+            errorMessage.textContent = "Invalid username or password";
+        }
+    };
+    xhr.open("POST", "/home", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    const data = { "food": food };
+    xhr.send(JSON.stringify(data));
+});
+</script>
+</body>
+</html>

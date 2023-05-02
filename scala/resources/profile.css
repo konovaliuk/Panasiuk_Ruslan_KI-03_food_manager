@@ -1,0 +1,79 @@
+a[href="/home"] {
+  font-size: 20px;
+  color: #fff;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #e0204f;
+  transition: background-color 0.2s ease-in-out;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+}
+
+a[href="/home"]:hover {
+  background-color: #fff;
+  color: #e0204f;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+#password-mismatch-error {
+  color: red;
+  margin-bottom: 10px;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+h1 {
+    font-size: 24px;
+    margin-top: 0;
+}
+
+form {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 20px;
+}
+
+form label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="number"],
+form input[type="date"],
+form select,
+form input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: none;
+    border-radius: 4px;
+    background-color: #fff;
+    color: #000;
+}
+
+form select {
+    height: 40px;
+}
+
+form button[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #e0204f;
+    color: #fff;
+    cursor: pointer;
+}

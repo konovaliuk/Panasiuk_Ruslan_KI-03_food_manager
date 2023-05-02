@@ -2,55 +2,27 @@ package entities
 
 import java.sql.Date
 
-class Meal (private val id: Long,
+class Meal (private val id:  Option[Long] = None,
             private var amount: Double,
             private val userId: Long,
             private val foodId: Long,
-            private var calories: Double = 0.0,
-            private var proteins: Double = 0.0,
-            private var fats: Double = 0.0,
-            private var carbohydrates: Double = 0.0,
-            private var fibers: Double = 0.0,
+            private var calories: Int = 0,
+            private var proteins: Int = 0,
+            private var fats: Int = 0,
+            private var carbohydrates: Int = 0,
+            private var fiber: Int = 0,
             private var topicality: Boolean = false,
-            private val dateCreated: Date) {
+            private val dateCreated: Date = new Date(System.currentTimeMillis())) {
 
-  def getId: Long = id
+  def getId: Option[Long] = id
   def getAmount: Double = amount
-  def getCalories: Double = calories
-  def getProteins: Double = proteins
-  def getFats: Double = fats
-  def getCarbohydrates: Double = carbohydrates
-  def getFibers: Double = fibers
+  def getCalories: Int = calories
+  def getProteins: Int = proteins
+  def getFats: Int = fats
+  def getCarbohydrates: Int = carbohydrates
+  def getFiber: Int = fiber
   def getUserId: Long = userId
   def getFoodId: Long = foodId
   def getTopicality: Boolean = topicality
   def getDateCreated: Date = dateCreated
-
-  def setAmount(newAmount: Double): Unit = {
-    amount = newAmount
-  }
-
-  def setTopicality(newTopicality: Boolean): Unit = {
-    topicality = newTopicality
-  }
-
-  def setCalories(newCalories: Double): Unit = {
-    calories = newCalories
-  }
-
-  def setProteins(newProteins: Double): Unit = {
-    proteins = newProteins
-  }
-
-  def setFats(newFats: Double): Unit = {
-    fats = newFats
-  }
-
-  def setCarbohydrates(newCarbohydrates: Double): Unit = {
-    carbohydrates = newCarbohydrates
-  }
-
-  def setFibers(newFibers: Double): Unit = {
-    fibers = newFibers
-  }
 }

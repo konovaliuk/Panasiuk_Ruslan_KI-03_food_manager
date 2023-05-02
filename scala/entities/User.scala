@@ -1,52 +1,27 @@
 package entities
 import java.sql.Date
 
-class User (private val id: Long,
+class User (private val id: Option[Long] = None,
             private val username: String,
-            private var password: String,
-            private var name: String,
-            private var weight: Option[Double] = None,
-            private var height: Option[Double] = None,
-            private var dateOfBirth: Option[Date] = None,
-            private var activityLevel: Option[String] = None,
-            private var banned: Boolean = false) {
+            private val password: String,
+            private val name: String,
+            private val email: String,
+            private val weight: Option[Int] = None,
+            private val height: Option[Int] = None,
+            private val dateOfBirth: Option[Date] = None,
+            private val activityLevel: Option[String] = None,
+            private val goal: Option[String] = None,
+            private val dailyCalories: Option[Int] = None) {
 
-  // getters for all private attributes
-  def getId: Long = id
+  def getId: Option[Long] = id
   def getUsername: String = username
   def getPassword: String = password
   def getName: String = name
-  def getWeight: Option[Double] = weight
-  def getHeight: Option[Double] = height
+  def getEmail: String = email
+  def getWeight: Option[Int] = weight
+  def getHeight: Option[Int] = height
   def getDateOfBirth: Option[Date] = dateOfBirth
   def getActivityLevel: Option[String] = activityLevel
-  def isBanned: Boolean = banned
-
-  def setPassword(newPassword: String): Unit = {
-    password = newPassword
-  }
-
-  def setName(newName: String): Unit = {
-    name = newName
-  }
-
-  def setWeight(newWeight: Option[Double]): Unit = {
-    weight = newWeight
-  }
-
-  def setHeight(newHeight: Option[Double]): Unit = {
-    height = newHeight
-  }
-
-  def setDateOfBirth(newDateOfBirth: Option[Date]): Unit = {
-    dateOfBirth = newDateOfBirth
-  }
-
-  def setActivityLevel(newActivityLevel: Option[String]): Unit = {
-    activityLevel = newActivityLevel
-  }
-
-  def setBanned(newBanned: Boolean): Unit = {
-    banned = newBanned
-  }
+  def getGoal: Option[String] = goal
+  def getDailyCalories: Option[Int] = dailyCalories
 }
